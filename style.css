@@ -26,9 +26,10 @@ body {
 }
 
 .container {
-    max-width: 1100px;
+    width: 95%;
+    max-width: 1200px; /* Make sure this is wide enough for two cards! */
     margin: 0 auto;
-    text-align: center;
+    padding: 20px;
 }
 
 h1 {
@@ -137,27 +138,32 @@ h1 {
 }
 
 /* --- 3. Meal Grid & Cards --- */
+#meal-results {
+    display: block; 
+    width: 100%;
+}
+
 .meals-grid {
     display: grid !important;
     /* This forces exactly two equal columns */
-    grid-template-columns: 1fr 1fr !important; 
-    gap: 25px;
-    padding: 20px;
-    width: 100%;
-    max-width: 1100px; /* Limits how wide the 2 columns get */
-    margin: 0 auto;
-    box-sizing: border-box;
+    grid-template-columns: repeat(2, 1fr) !important; 
+    gap: 20px !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 30px auto !important;
+    padding: 0 !important;
 }
 
 .meal-card {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important; /* Card fills exactly half the screen */
+    min-width: 0 !important; /* Prevents card from pushing the grid apart */
+    margin: 0 !important;
     background: #fff;
     border-radius: 15px;
-    overflow: hidden;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    width: 100%; /* Make sure the card fills the column */
-    margin: 0;   /* Remove any auto margins that might center it as a single block */
+    overflow: hidden;
 }
 
 .meal-card:hover {
@@ -417,7 +423,6 @@ meal-info h3 {
 @media (max-width: 600px) {
     .meals-grid {
         grid-template-columns: 1fr !important;
-        padding: 10px;
     }
 
     .meal-card img {
