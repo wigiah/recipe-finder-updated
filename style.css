@@ -41,19 +41,17 @@ h1 {
 .search-box {
     display: flex;
     align-items: center;
-    height: 48px;
-    max-width: 600px;
-    margin: 30px auto 15px;
     background: var(--white);
-    padding: 8px;
+    padding: 6px; /* Slightly tighter padding */
     border-radius: 50px;
     box-shadow: var(--shadow);
+    height: 54px; /* Fixed height for consistency */
 }
 
 #search-input {
     flex: 1;
     border: none;
-    padding: 12px 25px;
+    padding: 0 20px;
     font-size: 16px;
     outline: none;
     background: transparent;
@@ -63,7 +61,8 @@ h1 {
     background: var(--primary);
     color: white;
     border: none;
-    padding: 12px 30px;
+    height: 42px; /* Fits inside the 54px box */
+    padding: 0 25px;
     border-radius: 40px;
     cursor: pointer;
     font-weight: 600;
@@ -81,24 +80,23 @@ h1 {
     justify-content: center;
     gap: 12px;
     margin: 30px auto;
-    width: fit-content; /* This stops the dice from floating to the far edge */
+    width: fit-content;
 }
 
 #random-btn {
     background: var(--secondary);
     color: white;
     border: none;
-    height: 48px;
-    padding: 0 25px; /* Added padding back for text */
-    border-radius: 40px; /* Changed from 50% to 40px for a pill shape */
+    height: 54px; /* Matches the search-box exactly */
+    padding: 0 25px;
+    border-radius: 40px;
     cursor: pointer;
     font-weight: 600;
     display: flex;
     align-items: center;
     gap: 8px;
     transition: var(--transition);
-    line-height: 1;
-    white-space: nowrap; /* Keeps the text on one line */
+    white-space: nowrap;
 }
 
 #random-btn:hover {
