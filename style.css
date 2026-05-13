@@ -137,12 +137,13 @@ h1 {
 }
 
 /* --- 3. Meal Grid & Cards --- */
-.meal-grid {
+.meals-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 20px;
+    /* This forces exactly 2 columns of equal width */
+    grid-template-columns: 1fr 1fr; 
+    gap: 25px;
     padding: 20px 0;
-    max-width: 1200px;
+    max-width: 1000px; /* Keeps the 2 columns from getting too wide on huge monitors */
     margin: 0 auto;
 }
 
@@ -411,9 +412,23 @@ meal-info h3 {
 
 /* --- 8. Responsive Design --- */
 @media (max-width: 600px) {
-    body { padding: 10px; }
-    h1 { font-size: 1.8rem; }
-    .search-box { flex-direction: column; border-radius: 20px; }
-    #search-btn { margin-top: 10px; width: 100%; }
-    .modal-content { margin: 0; width: 100%; border-radius: 0; height: 100%; overflow-y: auto; }
+    .meals-grid {
+        /* This switches it to 1 column for phones */
+        grid-template-columns: 1fr; 
+        gap: 20px;
+    }
+
+    .meal-card img {
+        height: 250px; /* Makes the image taller since it has more room in 1 column */
+    }
+
+    /* Fix for the search bar from your previous media query */
+    .search-box {
+        flex-direction: column;
+    }
+    
+    #search-btn {
+        width: 100%;
+        margin-top: 10px;
+    }
 }
