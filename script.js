@@ -167,7 +167,10 @@ searchInput.addEventListener('keypress', (e) => {
 function performSearch(term) {
     if (!term) return;
     
-    // We try searching by name first
+    // Clear results and show a loading message
+    resultsArea.innerHTML = "<p>Searching for deliciousness...</p>";
+    recipeCount.innerText = "";
+
     fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`)
         .then(res => res.json())
         .then(data => {
@@ -183,5 +186,8 @@ function performSearch(term) {
             itemsToShow = 6;
             renderGrid();
         })
-        .catch(err => console.error("Search error:", err));
+        .catch(err => {
+            console.error("Search error:", err);
+            resultsArea.innerHTML = "<p>Something went wrong. Please try again!</p>";
+        });
 }
