@@ -50,66 +50,52 @@ function displayMeals(meals) {
     if (!meals) {
         resultsArea.innerHTML = "<p>No recipes found.</p>";
         loadMoreBtn.style.display = "none";
-        if (recipeCount) recipeCount.innerText = "";
+        // Safe check for the recipe count element
+        const counter = document.getElementById('recipe-count');
+        if (counter) counter.innerText = "";
         return;
     }
 
-    allMeals = meals; // Save the full list
-    itemsToShow = 6;  // Reset to 6
-    renderGrid();     // This draws the cards and handles the count text
+    allMeals = meals; 
+    itemsToShow = 6;  
+    renderGrid(); // This will trigger the drawing of recipes
 };
 
 function renderGrid() {
-    if (!allMeals || allMeals.length === 0) {
-        resultsArea.innerHTML = "<p>No recipes to display.</p>";
-        if (recipeCount) recipeCount.innerText = "";
-        loadMoreBtn.style.display = "none";
-        return;
-    }
+    if (!allMeals || allMeals.length === 0) return;
 
-    // Get the slice
     const currentSlice = allMeals.slice(0, itemsToShow);
     
-    // 1. Update the counter at the bottom
-    const counterElement = document.getElementById('recipe-count');
-    if (counterElement && allMeals.length > 0) {
-        counterElement.innerText = `Showing ${currentSlice.length} of ${allMeals.length} recipes`;
-    } else if (counterElement) {
-        counterElement.innerText = ""; // Clear it if no meals
+    // Update the counter at the bottom
+    const counter = document.getElementById('recipe-count');
+    if (counter) {
+        counter.innerText = `Showing ${currentSlice.length} of ${allMeals.length} recipes`;
     }
 
-    // 4. Generate the HTML for the cards
+    // Draw the cards
     resultsArea.innerHTML = currentSlice.map(meal => `
         <div class="meal-card">
-            <div class="badge">${meal.strCategory || 'Recipe'}</div>
             <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
             <div class="meal-info">
                 <h3>${meal.strMeal}</h3>
-                <p>${meal.strArea || 'International'}</p>
                 <button class="view-btn" data-id="${meal.idMeal}">View Recipe</button>
             </div>
         </div>
     `).join('');
 
-    // 5. Handle the "Load More" button visibility
-    if (itemsToShow < allMeals.length) {
-        loadMoreBtn.style.display = "block";
-    } else {
-        loadMoreBtn.style.display = "none";
-    }
+    // Handle button visibility
+    loadMoreBtn.style.display = itemsToShow < allMeals.length ? "inline-block" : "none";
 
-    // 6. Re-attach event listeners to the NEW "View Recipe" buttons
     attachButtonListeners();
-}
+};
 
 // Helper function to make sure the "View Recipe" buttons actually work
 function attachButtonListeners() {
-    const detailButtons = document.querySelectorAll('.view-btn');
-    detailButtons.forEach(button => {
-        button.addEventListener('click', () => {
+    document.querySelectorAll('.view-btn').forEach(button => {
+        button.onclick = () => {
             const mealId = button.getAttribute('data-id');
-            getMealDetails(mealId); // This calls your modal function
-        });
+            getMealDetails(mealId);
+        };
     });
 };
 
@@ -118,13 +104,6 @@ loadMoreBtn.addEventListener('click', () => {
     itemsToShow += 6; // Increase the count by 6
     renderGrid();
 });
-
-// Helper to keep the code clean
-function attachButtonListeners() {
-    document.querySelectorAll('.view-btn').forEach(button => {
-        button.onclick = () => getMealDetails(button.getAttribute('data-id'));
-    });
-};
 
 async function getMealDetails(id) {
     // Show a tiny loading state inside the modal if you want
