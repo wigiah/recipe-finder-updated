@@ -98,7 +98,8 @@ h1 {
 }
 
 #random-btn:hover {
-    transform: rotate(20deg) scale(1.1);
+    background: #4ecdc4;
+    transform: scale(1.03);
 }
 
 .suggestions {
