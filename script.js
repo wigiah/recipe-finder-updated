@@ -162,11 +162,11 @@ async function getMealDetails(id) {
 
             <h3>Instructions</h3>
             <div class="inst-steps">
-                ${instructionSteps.map(step => `
-                    <p>
-                        <span class="step-bullet">•</span> 
-                        <span>${step}${step.endsWith('.') ? '' : '.'}</span>
-                    </p>
+                ${instructionSteps.map((step, index) => `
+                    <div class="step-row">
+                        <span class="step-number">${index + 1}</span> 
+                        <p>${step}${step.endsWith('.') ? '' : '.'}</p>
+                    </div>
                 `).join('')}
             </div>
         </div>

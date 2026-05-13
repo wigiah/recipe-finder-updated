@@ -161,3 +161,33 @@ h3 {
     font-weight: bold;
     flex-shrink: 0; /* Prevents bullet from squishing */
 }
+
+.step-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.step-number {
+    background: #4ecdc4; /* That nice teal color */
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    flex-shrink: 0; /* Keeps the circle from turning into an oval */
+    margin-top: 2px;
+}
+
+.step-row p {
+    margin: 0;
+    line-height: 1.6;
+    color: #333;
+    font-size: 1.05rem;
+}
