@@ -440,3 +440,18 @@ meal-info h3 {
         margin-top: 10px;
     }
 }
+
+.footer {
+    width: 100%;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: auto; /* This "pushes" the footer to the bottom of the page */
+    color: #555;
+    font-size: 1rem;
+    border-top: 1px solid #eee; /* Optional: adds a light line above the text */
+}
+
+.footer i {
+    margin-left: 8px;
+    color: #ff6b6b; /* Matches your pink/red theme */
+}
