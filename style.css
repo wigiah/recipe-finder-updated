@@ -433,10 +433,10 @@ meal-info h3 {
 
     /* Fix for the search bar from your previous media query */
     .search-container {
+        display: flex;
         flex-direction: column;
-        width: 100%;
-        padding: 0 20px; /* Gives a little space from the screen edges */
         gap: 15px;
+        margin-bottom: 40px; /* Forces the suggestions DOWN */
     }
     
     .search-box {
@@ -446,17 +446,11 @@ meal-info h3 {
         gap: 12px;
     }
     
-    #search-btn, #random-btn {
-        width: 100%;
-        padding: 15px 0;
-        min-height: 55px; /* Slightly taller for easy tapping */
-        border-radius: 30px;
-        font-size: 1.1rem;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0; /* Removes any weird desktop spacing */
+    #search-input, #search-btn, #random-btn {
+        width: 100%t;
+        min-height: 55px;
+        /* Ensure no absolute positioning is pulling them out of the stack */
+        position: static; 
     }
 
     #search-input {
@@ -469,13 +463,12 @@ meal-info h3 {
     }
 
     .suggestions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    margin-top: 25px !important; /* This forces the gap below the buttons */
-    width: 100%;
+        margin-top: 10px !important;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        clear: both; /* Prevents any floating elements from interfering */
     }
 
     .suggestions span {
