@@ -267,14 +267,16 @@ meal-info h3 {
 
 .modal-header-img {
     width: 100%;
-    height: 350px;
+    height: 400px;
     object-fit: cover;
     display: block; /* Removes weird gaps at the bottom of the image */
+    border-bottom: 4px solid var(--primary); /* Optional: adds a nice color line under the photo */
 }
 
 .recipe-title-section {
-    padding: 25px 30px 10px; /* Gives the text plenty of space */
-    text-align: left;
+    padding: 30px 20px;
+    text-align: center; /* This centers both the H2 and the P */
+    background: #fff;
 }
 
 .recipe-title-section h2 {
@@ -291,6 +293,23 @@ meal-info h3 {
     letter-spacing: 1px;
     font-size: 0.85rem;
     margin-top: 5px;
+}
+
+.recipe-title {
+    font-size: 2.2rem;
+    color: var(--dark);
+    margin: 0;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.recipe-category {
+    color: var(--primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 0.85rem;
+    margin-bottom: 8px; /* Space between category and title */
 }
 
 @keyframes slideUp {
@@ -315,10 +334,10 @@ meal-info h3 {
 }
 
 .recipe-content h3 {
-    margin: 25px 0 15px;
+    text-align: center;
+    margin: 35px 0 20px;
     font-size: 1.5rem;
-    border-bottom: 2px solid #f0f0f0;
-    padding-bottom: 8px;
+    color: var(--dark);
 }
 
 /* --- 6. Ingredients Grid --- */
