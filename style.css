@@ -259,24 +259,28 @@ meal-info h3 {
 }
 
 .modal-content {
-    background: var(--white);
-    border-radius: 25px;
-    overflow: hidden; /* Keeps the top image corners rounded */
+    background: #fff;
+    border-radius: 20px;
+    width: 90%;
     max-width: 800px;
+    margin: 50px auto;
+    overflow: hidden; /* This keeps the image and title inside the rounded corners */
+    position: relative;
 }
 
 .modal-header-img {
     width: 100%;
-    height: 400px;
+    max-height: 400px;
     object-fit: cover;
-    display: block; /* Removes weird gaps at the bottom of the image */
-    border-bottom: 4px solid var(--primary); /* Optional: adds a nice color line under the photo */
+    display: block; /* Removes gaps */
 }
 
 .recipe-title-section {
-    padding: 30px 20px;
-    text-align: center; /* This centers both the H2 and the P */
     background: #fff;
+    padding: 25px;
+    text-align: center;
+    margin-top: -5px; /* Pulls it up to meet the image perfectly */
+    border-bottom: 1px solid #eee;
 }
 
 .recipe-title-section h2 {
