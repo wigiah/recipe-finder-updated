@@ -485,7 +485,7 @@ meal-info h3 {
     margin-top: auto; /* This "pushes" the footer to the bottom of the page */
     color: #555;
     font-size: 0.5rem;
-    border-top: 1px solid #eee; /* Optional: adds a light line above the text */
+    border-top: 1px solid #eee; /* Optional: adds a light line above the text  */
 }
 
 .footer i {
