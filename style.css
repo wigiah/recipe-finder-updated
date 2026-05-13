@@ -432,6 +432,13 @@ meal-info h3 {
     }
 
     /* Fix for the search bar from your previous media query */
+    .search-container {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 12px;
+    }
+    
     .search-box {
         flex-direction: column;
         align-items: center;
