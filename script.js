@@ -7,6 +7,7 @@ const modalBody = document.getElementById('modal-body');
 const closeBtn = document.querySelector('.close-btn');
 const loadMoreBtn = document.getElementById('load-more-btn');
 const countText = document.getElementById('recipe-count');
+const recipeCount = document.getElementById('recipe-count');
 
 let allMeals = []; // Global storage for search results
 let itemsToShow = 6; // How many to show at once
@@ -58,27 +59,54 @@ function displayMeals(meals) {
 }
 
 function renderGrid() {
-    // Get a slice of the array (e.g., 0 to 6)
+    // 1. Safety check: make sure we actually have meals to show
+    if (!allMeals || allMeals.length === 0) {
+        resultsArea.innerHTML = "<p>No recipes to display.</p>";
+        recipeCount.innerText = "";
+        loadMoreBtn.style.display = "none";
+        return;
+    }
+
+    // 2. Get the specific slice of meals (e.g., first 6, then first 12, etc.)
     const currentSlice = allMeals.slice(0, itemsToShow);
     
+    // 3. Update the Counter Text
+    recipeCount.innerText = `Showing ${currentSlice.length} of ${allMeals.length} recipes`;
+
+    // 4. Generate the HTML for the cards
     resultsArea.innerHTML = currentSlice.map(meal => `
         <div class="meal-card">
+            <div class="badge">${meal.strCategory || 'Recipe'}</div>
             <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
-            <h3>${meal.strMeal}</h3>
-            <button class="view-btn" data-id="${meal.idMeal}">View Recipe</button>
+            <div class="meal-info">
+                <h3>${meal.strMeal}</h3>
+                <p>${meal.strArea || 'International'}</p>
+                <button class="view-btn" data-id="${meal.idMeal}">View Recipe</button>
+            </div>
         </div>
     `).join('');
 
-    // Re-attach listeners to the new buttons
-    attachButtonListeners();
-
-    // Show/Hide the Load More button
+    // 5. Handle the "Load More" button visibility
     if (itemsToShow < allMeals.length) {
         loadMoreBtn.style.display = "block";
     } else {
         loadMoreBtn.style.display = "none";
     }
+
+    // 6. Re-attach event listeners to the NEW "View Recipe" buttons
+    attachButtonListeners();
 }
+
+// Helper function to make sure the "View Recipe" buttons actually work
+function attachButtonListeners() {
+    const detailButtons = document.querySelectorAll('.view-btn');
+    detailButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const mealId = button.getAttribute('data-id');
+            getMealDetails(mealId); // This calls your modal function
+        });
+    });
+};
 
 // Function for the Load More button
 loadMoreBtn.addEventListener('click', () => {
