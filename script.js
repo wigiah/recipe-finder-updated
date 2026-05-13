@@ -89,16 +89,6 @@ function renderGrid() {
     attachButtonListeners();
 };
 
-// Helper function to make sure the "View Recipe" buttons actually work
-function attachButtonListeners() {
-    document.querySelectorAll('.view-btn').forEach(button => {
-        button.onclick = () => {
-            const mealId = button.getAttribute('data-id');
-            getMealDetails(mealId);
-        };
-    });
-};
-
 // Function for the Load More button
 loadMoreBtn.addEventListener('click', () => {
     itemsToShow += 6; // Increase the count by 6
@@ -230,4 +220,13 @@ function shuffle(array) {
         [array[i], array[array[j]]] = [array[array[j]], array[i]];
     }
     return array;
-}
+};
+
+function attachButtonListeners() {
+    document.querySelectorAll('.view-btn').forEach(button => {
+        button.onclick = () => {
+            const mealId = button.getAttribute('data-id');
+            getMealDetails(mealId);
+        };
+    });
+};
