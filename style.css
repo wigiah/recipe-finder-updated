@@ -77,26 +77,24 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px; /* Space between search bar and random button */
-    max-width: 700px;
+    gap: 10px;
     margin: 30px auto;
+    width: fit-content; /* This stops the dice from floating to the far edge */
 }
 
-/* Redesign the Surprise Me button to be an icon or a sleek circle */
 #random-btn {
     background: var(--secondary);
     color: white;
     border: none;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+    padding: 10px 20px; /* Added padding back for text */
+    border-radius: 40px; /* Changed from 50% to 40px for a pill shape */
     cursor: pointer;
-    font-size: 20px;
+    font-weight: 600;
     display: flex;
     align-items: center;
-    justify-content: center;
-    box-shadow: var(--shadow);
+    gap: 8px;
     transition: var(--transition);
+    white-space: nowrap; /* Keeps the text on one line */
 }
 
 #random-btn:hover {
