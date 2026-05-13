@@ -286,7 +286,7 @@ meal-info h3 {
 .recipe-title-section h2 {
     font-size: 2rem;
     color: var(--dark);
-    margin: 0;
+    margin: 1;
     font-weight: 700;
 }
 
