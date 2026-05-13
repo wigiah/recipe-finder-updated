@@ -65,7 +65,6 @@ document.querySelectorAll('.chip').forEach(chip => {
 
 async function performSearch(term) {
     resultsArea.innerHTML = "<p>Cooking up your results...</p>";
-    if (recipeCount) recipeCount.innerText = "";
 
     try {
         // Fetch from 3 endpoints to get the best results
@@ -93,6 +92,7 @@ async function performSearch(term) {
         allMeals = shuffle(uniqueMeals);
         itemsToShow = 6;
         renderGrid();
+
     } catch (err) {
         console.error("Search error:", err);
         resultsArea.innerHTML = "<p>Oops! Something went wrong.</p>";
@@ -193,12 +193,5 @@ function attachButtonListeners() {
     document.querySelectorAll('.view-btn').forEach(button => {
         button.onclick = () => getMealDetails(button.getAttribute('data-id'));
     });
-};
-
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[array[j]]] = [array[array[j]], array[i]];
-    }
-    return array;
 }
+
