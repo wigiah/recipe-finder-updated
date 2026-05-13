@@ -447,6 +447,13 @@ meal-info h3 {
         display: block;
         font-weight: bold;
     }
+
+    #search-input {
+        width: 100%;
+        padding: 15px;
+        border-radius: 25px;
+        text-align: center; /* Centers the placeholder text on mobile */
+    }
 }
 
 .footer {
