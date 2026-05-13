@@ -1,0 +1,13 @@
+body { font-family: 'Segoe UI', sans-serif; background: #f4f4f4; text-align: center; }
+.container { max-width: 1000px; margin: auto; padding: 20px; }
+.search-box { margin-bottom: 30px; }
+input { padding: 10px; width: 60%; border-radius: 5px; border: 1px solid #ddd; }
+button { padding: 10px 20px; background: #ff6b6b; color: white; border: none; cursor: pointer; }
+
+.meal-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 20px; 
+}
+.meal-card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.meal-card img { width: 100%; border-radius: 8px; }
