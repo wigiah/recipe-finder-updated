@@ -16,6 +16,7 @@ let itemsToShow = 6; // How many to show at once
 
 searchBtn.addEventListener('click', () => {
     const term = searchInput.value.trim();
+    performSearch(term);
     if (term) {
         // We use 's=' for search by name
         fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`)
@@ -147,4 +148,40 @@ async function getMealDetails(id) {
         </div>
     `;
     modal.style.display = "block";
+};
+document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+        const value = chip.innerText;
+        searchInput.value = value; // Put the word in the input
+        performSearch(value);      // Run the search function
+    });
+});
+
+searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        performSearch(searchInput.value.trim());
+    }
+});
+
+// To keep things clean, let's wrap your fetch logic into one function
+function performSearch(term) {
+    if (!term) return;
+    
+    // We try searching by name first
+    fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`)
+        .then(res => res.json())
+        .then(data => {
+            // If name search gives nothing, try filtering by category
+            if (!data.meals) {
+                return fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${term}`)
+                    .then(res => res.json());
+            }
+            return data;
+        })
+        .then(data => {
+            allMeals = data.meals || [];
+            itemsToShow = 6;
+            renderGrid();
+        })
+        .catch(err => console.error("Search error:", err));
 }
