@@ -139,9 +139,11 @@ h1 {
 /* --- 3. Meal Grid & Cards --- */
 .meal-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
-    margin-top: 20px;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 20px;
+    padding: 20px 0;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .meal-card {
