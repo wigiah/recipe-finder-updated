@@ -126,6 +126,7 @@ async function getMealDetails(id) {
     const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
     const data = await res.json();
     const meal = data.meals[0];
+    
 
     // 1. Format Ingredients (Same as before)
     let ingredients = [];
@@ -139,22 +140,21 @@ async function getMealDetails(id) {
     // Split text by periods followed by a space, then filter out empty strings
     const instructionSteps = meal.strInstructions
         .split(/\.\s+/)
-        .filter(step => step.trim().length > 0);
+        .map(step => step.trim()) // Clean up whitespace
+    // 2. This filter removes steps that are ONLY numbers or too short
+        .filter(step => {
+            const isJustNumber = /^\d+\.?$/.test(step); // Checks if it's "1" or "1."
+            return step.length > 2 && !isJustNumber;
+        });
 
     modalBody.innerHTML = `
-        <h2 style="color: #ff6b6b; margin-bottom: 10px;">${meal.strMeal}</h2>
-        <img src="${meal.strMealThumb}" style="width: 100%; border-radius: 10px; margin-bottom: 20px;">
-        
-        <div class="recipe-content">
-            <h3>Ingredients</h3>
-            <ul class="ing-list">
-                ${ingredients.map(ing => `<li>${ing}</li>`).join('')}
-            </ul>
-
-            <h3>Instructions</h3>
-            <div class="inst-steps">
-                ${instructionSteps.map(step => `<p>• ${step.trim()}.</p>`).join('')}
-            </div>
+        <div class="inst-steps">
+            ${instructionSteps.map(step => `
+                <p>
+                    <span class="step-bullet">•</span> 
+                    ${step}${step.endsWith('.') ? '' : '.'}
+                </p>
+            `).join('')}
         </div>
     `;
     modal.style.display = "block";

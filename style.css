@@ -55,6 +55,7 @@ button:hover {
     font-size: 30px;
     cursor: pointer;
 }
+
 .meal-card {
     position: relative; /* So we can position the badge */
 }
@@ -71,6 +72,7 @@ button:hover {
     font-weight: bold;
     z-index: 10;
 }
+
 .suggestions {
     margin: 15px 0;
     display: flex;
@@ -100,6 +102,7 @@ button:hover {
     color: white;
     transform: translateY(-2px);
 }
+
 .recipe-content {
     text-align: left;
     padding: 10px;
@@ -125,4 +128,20 @@ h3 {
     margin-top: 20px;
     border-bottom: 2px solid #eee;
     padding-bottom: 5px;
+}
+
+.inst-steps p {
+    margin-bottom: 18px;
+    line-height: 1.6;
+    color: #444;
+    padding-left: 15px;
+    border-left: 3px solid #4ecdc4;
+    display: flex; /* Keeps the bullet aligned with the text */
+    gap: 10px;
+}
+
+.step-bullet {
+    color: #4ecdc4;
+    font-weight: bold;
+    flex-shrink: 0; /* Prevents bullet from squishing */
 }
