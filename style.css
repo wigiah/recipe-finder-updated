@@ -73,6 +73,37 @@ h1 {
     transform: scale(1.03);
 }
 
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* Space between search bar and random button */
+    max-width: 700px;
+    margin: 30px auto;
+}
+
+/* Redesign the Surprise Me button to be an icon or a sleek circle */
+#random-btn {
+    background: var(--secondary);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+#random-btn:hover {
+    transform: rotate(15deg) scale(1.1);
+    background: #3dbbb2;
+}
+
 .suggestions {
     margin-bottom: 30px;
     display: flex;
@@ -149,29 +180,29 @@ h1 {
 
 .meal-info {
     padding: 20px;
-    text-align: left;
+    text-align: center; /* This centers the Title and Cuisine text */
 }
 
-.meal-info h3 {
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-    height: 3.2rem;
+meal-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    height: 2.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centers the text inside the fixed height box */
     overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+}
+
+.meal-info p {
+    color: #777;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
 }
 
 .view-btn {
-    width: 100%;
-    background: transparent;
-    color: var(--primary);
-    border: 2px solid var(--primary);
-    padding: 10px;
-    border-radius: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: var(--transition);
+    width: 80%; /* Makes the button slightly smaller than the card width */
+    margin: 0 auto; /* Centers the button */
+    display: block;
 }
 
 .view-btn:hover {
