@@ -70,11 +70,12 @@ function renderGrid() {
     // Get the slice
     const currentSlice = allMeals.slice(0, itemsToShow);
     
-    // UPDATE THE COUNTER HERE
-    // Use 'recipeCount' or 'countText' - just make sure it matches your HTML ID
+    // 1. Update the counter at the bottom
     const counterElement = document.getElementById('recipe-count');
-    if (counterElement) {
+    if (counterElement && allMeals.length > 0) {
         counterElement.innerText = `Showing ${currentSlice.length} of ${allMeals.length} recipes`;
+    } else if (counterElement) {
+        counterElement.innerText = ""; // Clear it if no meals
     }
 
     // 4. Generate the HTML for the cards
