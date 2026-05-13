@@ -123,41 +123,58 @@ function attachButtonListeners() {
 };
 
 async function getMealDetails(id) {
+    // Show a tiny loading state inside the modal if you want
     const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
     const data = await res.json();
     const meal = data.meals[0];
-    
 
-    // 1. Format Ingredients (Same as before)
-    let ingredients = [];
+    // 1. Re-build the Ingredients List
+    let ingredientsListHTML = "";
     for (let i = 1; i <= 20; i++) {
-        if (meal[`strIngredient${i}`]) {
-            ingredients.push(`${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`);
-        } else break;
+        const ingredient = meal[`strIngredient${i}`];
+        const measure = meal[`strMeasure${i}`];
+        
+        if (ingredient && ingredient.trim() !== "") {
+            ingredientsListHTML += `<li>${ingredient} - ${measure}</li>`;
+        }
     }
 
-    // 2. FORMAT INSTRUCTIONS:
-    // Split text by periods followed by a space, then filter out empty strings
+    // 2. Format Instructions (The "Number-Remover" Logic)
     const instructionSteps = meal.strInstructions
         .split(/\.\s+/)
-        .map(step => step.trim()) // Clean up whitespace
-    // 2. This filter removes steps that are ONLY numbers or too short
+        .map(step => step.trim())
         .filter(step => {
-            const isJustNumber = /^\d+\.?$/.test(step); // Checks if it's "1" or "1."
+            const isJustNumber = /^\d+\.?$/.test(step); 
+            // Keep it if it's longer than 2 characters and NOT just a number
             return step.length > 2 && !isJustNumber;
         });
 
+    // 3. Combine everything into the Modal
     modalBody.innerHTML = `
-        <div class="inst-steps">
-            ${instructionSteps.map(step => `
-                <p>
-                    <span class="step-bullet">•</span> 
-                    ${step}${step.endsWith('.') ? '' : '.'}
-                </p>
-            `).join('')}
+        <h2 style="color: #ff6b6b; margin-bottom: 15px;">${meal.strMeal}</h2>
+        <img src="${meal.strMealThumb}" style="width: 100%; border-radius: 15px; margin-bottom: 20px; max-height: 400px; object-fit: cover;">
+        
+        <div class="recipe-content">
+            <h3>Ingredients</h3>
+            <ul class="ing-list">
+                ${ingredientsListHTML}
+            </ul>
+
+            <h3>Instructions</h3>
+            <div class="inst-steps">
+                ${instructionSteps.map(step => `
+                    <p>
+                        <span class="step-bullet">•</span> 
+                        <span>${step}${step.endsWith('.') ? '' : '.'}</span>
+                    </p>
+                `).join('')}
+            </div>
         </div>
     `;
+    
     modal.style.display = "block";
+    // Scroll modal to top in case it was left scrolled down
+    modal.scrollTop = 0;
 };
 
 document.querySelectorAll('.chip').forEach(chip => {
