@@ -200,14 +200,28 @@ meal-info h3 {
 }
 
 .view-btn {
-    width: 80%; /* Makes the button slightly smaller than the card width */
-    margin: 0 auto; /* Centers the button */
-    display: block;
+    width: 100%;
+    background: var(--primary); /* The coral/red color */
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 10px;
+    font-size: 0.95rem;
 }
 
 .view-btn:hover {
-    background: var(--primary);
-    color: white;
+    background: #ee5253; /* A slightly darker shade for the hover effect */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+}
+
+.view-btn:active {
+    transform: translateY(0);
 }
 
 /* --- 4. Load More Button --- */
