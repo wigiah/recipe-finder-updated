@@ -26,16 +26,16 @@ body {
 }
 
 .container {
-    width: 95%;
-    max-width: 1200px; /* Make sure this is wide enough for two cards! */
-    margin: 0 auto;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* This centers the search bar and chips as well */
+    text-align: center;
 }
 
 h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    color: var(--dark);
+    text-align: center;
+    margin-bottom: 40px; /* Adds some breathing room above the search bar */
+    width: 100%;
 }
 
 /* --- 2. Search & Suggestions --- */
