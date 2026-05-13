@@ -5,16 +5,25 @@ const resultsArea = document.getElementById('meal-results');
 const modal = document.getElementById('recipe-modal');
 const modalBody = document.getElementById('modal-body');
 const closeBtn = document.querySelector('.close-btn');
+const loadMoreBtn = document.getElementById('load-more-btn');
+const countText = document.getElementById('recipe-count');
+
+let allMeals = []; // Global storage for search results
+let itemsToShow = 6; // How many to show at once
 
 // --- EVENT LISTENERS ---
 
 searchBtn.addEventListener('click', () => {
-    const ingredient = searchInput.value.trim();
-    if (ingredient) {
-        // We use the filter endpoint for ingredients
-        fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`)
+    const term = searchInput.value.trim();
+    if (term) {
+        // We use 's=' for search by name
+        fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`)
             .then(res => res.json())
-            .then(data => displayMeals(data.meals))
+            .then(data => {
+                allMeals = data.meals; // Store all results
+                itemsToShow = 6;       // Reset view count
+                displayMeals(allMeals); 
+            })
             .catch(err => console.error("Search Error:", err));
     }
 });
@@ -37,11 +46,22 @@ window.onclick = (event) => {
 
 function displayMeals(meals) {
     if (!meals) {
-        resultsArea.innerHTML = "<p>No recipes found. Try another ingredient!</p>";
+        resultsArea.innerHTML = "<p>No recipes found.</p>";
+        loadMoreBtn.style.display = "none";
         return;
     }
 
-    resultsArea.innerHTML = meals.map(meal => `
+    allMeals = meals; // Save the full list
+    itemsToShow = 6;  // Reset to 6 for every new search
+    renderGrid();     // Call a sub-function to draw the cards
+    countText.innerText = `Showing ${currentSlice.length} of ${meals.length} recipes`;
+}
+
+function renderGrid() {
+    // Get a slice of the array (e.g., 0 to 6)
+    const currentSlice = allMeals.slice(0, itemsToShow);
+    
+    resultsArea.innerHTML = currentSlice.map(meal => `
         <div class="meal-card">
             <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
             <h3>${meal.strMeal}</h3>
@@ -49,14 +69,29 @@ function displayMeals(meals) {
         </div>
     `).join('');
 
-    // Attach click events to the new buttons
-    document.querySelectorAll('.view-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            const mealId = button.getAttribute('data-id');
-            getMealDetails(mealId);
-        });
-    });
+    // Re-attach listeners to the new buttons
+    attachButtonListeners();
+
+    // Show/Hide the Load More button
+    if (itemsToShow < allMeals.length) {
+        loadMoreBtn.style.display = "block";
+    } else {
+        loadMoreBtn.style.display = "none";
+    }
 }
+
+// Function for the Load More button
+loadMoreBtn.addEventListener('click', () => {
+    itemsToShow += 6; // Increase the count by 6
+    renderGrid();
+});
+
+// Helper to keep the code clean
+function attachButtonListeners() {
+    document.querySelectorAll('.view-btn').forEach(button => {
+        button.onclick = () => getMealDetails(button.getAttribute('data-id'));
+    });
+};
 
 async function getMealDetails(id) {
     console.log("Fetching details for ID:", id); // Check your console!
