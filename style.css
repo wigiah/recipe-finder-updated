@@ -284,6 +284,9 @@ meal-info h3 {
     text-align: center;
     box-sizing: border-box; /* Ensures padding doesn't push the box out */
     z-index: 10; /* Keeps it above the image if they overlap */
+    position: relative;
+    display: block; /* Ensures it takes up its own line */
+    margin-top: 0;
 }
 
 .recipe-title-section h2 {
@@ -304,10 +307,9 @@ meal-info h3 {
 
 .recipe-title {
     font-size: 2rem;
-    color: var(--primary); /* That coral red color */
-    margin: 0;
-    line-height: 1.2;
-    word-wrap: break-word; /* Prevents long titles from breaking the layout */
+    color: #ff6b6b; /* Coral color */
+    margin: 10px 0;
+    font-weight: 700;
 }
 
 .recipe-category {

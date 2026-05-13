@@ -50,14 +50,14 @@ function displayMeals(meals) {
     if (!meals) {
         resultsArea.innerHTML = "<p>No recipes found.</p>";
         loadMoreBtn.style.display = "none";
+        recipeCount.innerText = "";
         return;
     }
 
     allMeals = meals; // Save the full list
-    itemsToShow = 6;  // Reset to 6 for every new search
-    renderGrid();     // Call a sub-function to draw the cards
-    countText.innerText = `Showing ${currentSlice.length} of ${meals.length} recipes`;
-}
+    itemsToShow = 6;  // Reset to 6
+    renderGrid();     // This draws the cards and handles the count text
+};
 
 function renderGrid() {
     // 1. Safety check: make sure we actually have meals to show
@@ -147,17 +147,12 @@ async function getMealDetails(id) {
 
     // 2. Format Instructions (The "Number-Remover" Logic)
     const instructionSteps = meal.strInstructions
-        .split(/\.\s+/)
+        .split(/\r?\n|\.\s+/) // Splits by New Line OR Period
         .map(step => step.trim())
-        .filter(step => {
-            const isJustNumber = /^\d+\.?$/.test(step); 
-            // Keep it if it's longer than 2 characters and NOT just a number
-            return step.length > 2 && !isJustNumber;
-        });
+        .filter(step => step.length > 5 && !/^\d+\.?$/.test(step));
 
     // 3. Combine everything into the Modal
     modalBody.innerHTML = `
-        <h2 style="color: #ff6b6b; margin-bottom: 15px;">${meal.strMeal}</h2>
         <img src="${meal.strMealThumb}" class="modal-header-img">
     
         <div class="recipe-title-section">
