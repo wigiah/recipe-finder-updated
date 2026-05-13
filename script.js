@@ -50,7 +50,7 @@ function displayMeals(meals) {
     if (!meals) {
         resultsArea.innerHTML = "<p>No recipes found.</p>";
         loadMoreBtn.style.display = "none";
-        recipeCount.innerText = "";
+        if (recipeCount) recipeCount.innerText = "";
         return;
     }
 
@@ -60,19 +60,22 @@ function displayMeals(meals) {
 };
 
 function renderGrid() {
-    // 1. Safety check: make sure we actually have meals to show
     if (!allMeals || allMeals.length === 0) {
         resultsArea.innerHTML = "<p>No recipes to display.</p>";
-        recipeCount.innerText = "";
+        if (recipeCount) recipeCount.innerText = "";
         loadMoreBtn.style.display = "none";
         return;
     }
 
-    // 2. Get the specific slice of meals (e.g., first 6, then first 12, etc.)
+    // Get the slice
     const currentSlice = allMeals.slice(0, itemsToShow);
     
-    // 3. Update the Counter Text
-    recipeCount.innerText = `Showing ${currentSlice.length} of ${allMeals.length} recipes`;
+    // UPDATE THE COUNTER HERE
+    // Use 'recipeCount' or 'countText' - just make sure it matches your HTML ID
+    const counterElement = document.getElementById('recipe-count');
+    if (counterElement) {
+        counterElement.innerText = `Showing ${currentSlice.length} of ${allMeals.length} recipes`;
+    }
 
     // 4. Generate the HTML for the cards
     resultsArea.innerHTML = currentSlice.map(meal => `
