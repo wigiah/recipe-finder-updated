@@ -164,30 +164,41 @@ searchInput.addEventListener('keypress', (e) => {
 });
 
 // To keep things clean, let's wrap your fetch logic into one function
-function performSearch(term) {
+async function performSearch(term) {
     if (!term) return;
     
-    // Clear results and show a loading message
-    resultsArea.innerHTML = "<p>Searching for deliciousness...</p>";
+    resultsArea.innerHTML = "<p>Cooking up your results...</p>";
     recipeCount.innerText = "";
 
-    fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`)
-        .then(res => res.json())
-        .then(data => {
-            // If name search gives nothing, try filtering by category
-            if (!data.meals) {
-                return fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${term}`)
-                    .then(res => res.json());
-            }
-            return data;
-        })
-        .then(data => {
-            allMeals = data.meals || [];
-            itemsToShow = 6;
-            renderGrid();
-        })
-        .catch(err => {
-            console.error("Search error:", err);
-            resultsArea.innerHTML = "<p>Something went wrong. Please try again!</p>";
-        });
+    try {
+        // Run three searches at the same time for maximum results!
+        const [nameRes, catRes, ingRes] = await Promise.all([
+            fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`),
+            fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${term}`),
+            fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${term}`)
+        ]);
+
+        const nameData = await nameRes.json();
+        const catData = await catRes.json();
+        const ingData = await ingRes.json();
+
+        // Combine all three lists into one big array
+        const combined = [
+            ...(nameData.meals || []),
+            ...(catData.meals || []),
+            ...(ingData.meals || [])
+        ];
+
+        // Remove duplicates (so you don't see the same meal twice)
+        allMeals = combined.filter((meal, index, self) =>
+            index === self.findIndex((m) => m.idMeal === meal.idMeal)
+        );
+
+        itemsToShow = 6;
+        renderGrid();
+
+    } catch (err) {
+        console.error("Search error:", err);
+        resultsArea.innerHTML = "<p>Oops! Something went wrong.</p>";
+    }
 }
