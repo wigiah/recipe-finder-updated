@@ -191,3 +191,45 @@ h3 {
     color: #333;
     font-size: 1.05rem;
 }
+
+.ing-list-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    border: 1px solid #eee;
+}
+
+.ingredient-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 0;
+    transition: all 0.2s ease;
+}
+
+.ingredient-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #4ecdc4; /* Matches your teal theme */
+}
+
+.ingredient-item label {
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.ingredient-item label strong {
+    color: #ff6b6b; /* Makes the measurements pop */
+}
+
+/* Strike-through effect when checked */
+.ingredient-item input:checked + label {
+    text-decoration: line-through;
+    color: #aaa;
+}

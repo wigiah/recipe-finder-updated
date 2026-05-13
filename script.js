@@ -133,11 +133,17 @@ async function getMealDetails(id) {
     for (let i = 1; i <= 20; i++) {
         const ingredient = meal[`strIngredient${i}`];
         const measure = meal[`strMeasure${i}`];
-        
+    
         if (ingredient && ingredient.trim() !== "") {
-            ingredientsListHTML += `<li>${ingredient} - ${measure}</li>`;
+            ingredientsListHTML += `
+                <div class="ingredient-item">
+                    <input type="checkbox" id="ing-${i}">
+                    <label for="ing-${i}">
+                        <strong>${measure}</strong> ${ingredient}
+                    </label>
+                </div>`;
         }
-    }
+    };
 
     // 2. Format Instructions (The "Number-Remover" Logic)
     const instructionSteps = meal.strInstructions
@@ -156,9 +162,9 @@ async function getMealDetails(id) {
         
         <div class="recipe-content">
             <h3>Ingredients</h3>
-            <ul class="ing-list">
+            <div class="ing-list-container">
                 ${ingredientsListHTML}
-            </ul>
+            </div>
 
             <h3>Instructions</h3>
             <div class="inst-steps">
