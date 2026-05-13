@@ -87,7 +87,7 @@ h1 {
     background: var(--secondary);
     color: white;
     border: none;
-    height: 54px; /* Matches the search-box exactly */
+    height: 42px; /* Matches the search-box exactly */
     padding: 0 25px;
     border-radius: 40px;
     cursor: pointer;
