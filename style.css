@@ -259,14 +259,38 @@ meal-info h3 {
 }
 
 .modal-content {
-    background-color: var(--white);
-    margin: 5% auto;
-    width: 90%;
-    max-width: 850px;
-    border-radius: 30px;
-    overflow: hidden;
-    position: relative;
-    animation: slideUp 0.4s ease-out;
+    background: var(--white);
+    border-radius: 25px;
+    overflow: hidden; /* Keeps the top image corners rounded */
+    max-width: 800px;
+}
+
+.modal-header-img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    display: block; /* Removes weird gaps at the bottom of the image */
+}
+
+.recipe-title-section {
+    padding: 25px 30px 10px; /* Gives the text plenty of space */
+    text-align: left;
+}
+
+.recipe-title-section h2 {
+    font-size: 2rem;
+    color: var(--dark);
+    margin: 0;
+    font-weight: 700;
+}
+
+.recipe-title-section p {
+    color: var(--primary); /* Shows the category/cuisine in coral */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+    margin-top: 5px;
 }
 
 @keyframes slideUp {

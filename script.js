@@ -158,8 +158,13 @@ async function getMealDetails(id) {
     // 3. Combine everything into the Modal
     modalBody.innerHTML = `
         <h2 style="color: #ff6b6b; margin-bottom: 15px;">${meal.strMeal}</h2>
-        <img src="${meal.strMealThumb}" style="width: 100%; border-radius: 15px; margin-bottom: 20px; max-height: 400px; object-fit: cover;">
+        <img src="${meal.strMealThumb}" alt="${meal.strMeal}" class="modal-header-img">
         
+        <div class="recipe-title-section">
+            <p>${meal.strArea} • ${meal.strCategory}</p>
+            <h2>${meal.strMeal}</h2>
+        </div>
+
         <div class="recipe-content">
             <h3>Ingredients</h3>
             <div class="ing-list-container">
