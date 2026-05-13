@@ -193,7 +193,7 @@ function attachButtonListeners() {
     document.querySelectorAll('.view-btn').forEach(button => {
         button.onclick = () => getMealDetails(button.getAttribute('data-id'));
     });
-}
+};
 
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
