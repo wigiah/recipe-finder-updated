@@ -40,6 +40,8 @@ h1 {
 /* --- 2. Search & Suggestions --- */
 .search-box {
     display: flex;
+    align-items: center;
+    height: 48px;
     max-width: 600px;
     margin: 30px auto 15px;
     background: var(--white);
@@ -77,7 +79,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
     margin: 30px auto;
     width: fit-content; /* This stops the dice from floating to the far edge */
 }
@@ -86,7 +88,8 @@ h1 {
     background: var(--secondary);
     color: white;
     border: none;
-    padding: 10px 20px; /* Added padding back for text */
+    height: 48px;
+    padding: 0 25px; /* Added padding back for text */
     border-radius: 40px; /* Changed from 50% to 40px for a pill shape */
     cursor: pointer;
     font-weight: 600;
@@ -94,6 +97,7 @@ h1 {
     align-items: center;
     gap: 8px;
     transition: var(--transition);
+    line-height: 1;
     white-space: nowrap; /* Keeps the text on one line */
 }
 
