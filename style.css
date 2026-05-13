@@ -266,6 +266,8 @@ meal-info h3 {
     margin: 50px auto;
     overflow: hidden; /* This keeps the image and title inside the rounded corners */
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .modal-header-img {
@@ -276,17 +278,18 @@ meal-info h3 {
 }
 
 .recipe-title-section {
+    width: 100%;
     background: #fff;
-    padding: 25px;
+    padding: 20px;
     text-align: center;
-    margin-top: -5px; /* Pulls it up to meet the image perfectly */
-    border-bottom: 1px solid #eee;
+    box-sizing: border-box; /* Ensures padding doesn't push the box out */
+    z-index: 10; /* Keeps it above the image if they overlap */
 }
 
 .recipe-title-section h2 {
     font-size: 2rem;
     color: var(--dark);
-    margin: 1;
+    margin: 0;
     font-weight: 700;
 }
 
@@ -300,11 +303,11 @@ meal-info h3 {
 }
 
 .recipe-title {
-    font-size: 2.2rem;
-    color: var(--dark);
+    font-size: 2rem;
+    color: var(--primary); /* That coral red color */
     margin: 0;
     line-height: 1.2;
-    font-weight: 700;
+    word-wrap: break-word; /* Prevents long titles from breaking the layout */
 }
 
 .recipe-category {
