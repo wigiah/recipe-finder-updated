@@ -100,3 +100,29 @@ button:hover {
     color: white;
     transform: translateY(-2px);
 }
+.recipe-content {
+    text-align: left;
+    padding: 10px;
+}
+
+.ing-list {
+    background: #f9f9f9;
+    padding: 15px 35px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.inst-steps p {
+    margin-bottom: 15px; /* Adds space between steps */
+    line-height: 1.6;
+    color: #444;
+    padding-left: 5px;
+    border-left: 3px solid #4ecdc4; /* Adds a nice vertical line next to steps */
+    padding-left: 15px;
+}
+
+h3 {
+    margin-top: 20px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
+}

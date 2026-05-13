@@ -123,13 +123,11 @@ function attachButtonListeners() {
 };
 
 async function getMealDetails(id) {
-    console.log("Fetching details for ID:", id); // Check your console!
-    
     const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
     const data = await res.json();
     const meal = data.meals[0];
 
-    // Get ingredients
+    // 1. Format Ingredients (Same as before)
     let ingredients = [];
     for (let i = 1; i <= 20; i++) {
         if (meal[`strIngredient${i}`]) {
@@ -137,18 +135,31 @@ async function getMealDetails(id) {
         } else break;
     }
 
+    // 2. FORMAT INSTRUCTIONS:
+    // Split text by periods followed by a space, then filter out empty strings
+    const instructionSteps = meal.strInstructions
+        .split(/\.\s+/)
+        .filter(step => step.trim().length > 0);
+
     modalBody.innerHTML = `
-        <h2 style="color: #ff6b6b;">${meal.strMeal}</h2>
-        <img src="${meal.strMealThumb}" style="width: 100%; border-radius: 10px; max-height: 300px; object-fit: cover;">
-        <div style="text-align: left; padding: 20px;">
-            <h3>Ingredients:</h3>
-            <ul>${ingredients.map(ing => `<li>${ing}</li>`).join('')}</ul>
-            <h3>Instructions:</h3>
-            <p style="white-space: pre-line;">${meal.strInstructions}</p>
+        <h2 style="color: #ff6b6b; margin-bottom: 10px;">${meal.strMeal}</h2>
+        <img src="${meal.strMealThumb}" style="width: 100%; border-radius: 10px; margin-bottom: 20px;">
+        
+        <div class="recipe-content">
+            <h3>Ingredients</h3>
+            <ul class="ing-list">
+                ${ingredients.map(ing => `<li>${ing}</li>`).join('')}
+            </ul>
+
+            <h3>Instructions</h3>
+            <div class="inst-steps">
+                ${instructionSteps.map(step => `<p>• ${step.trim()}.</p>`).join('')}
+            </div>
         </div>
     `;
     modal.style.display = "block";
 };
+
 document.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => {
         const value = chip.innerText;
