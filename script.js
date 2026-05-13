@@ -222,12 +222,16 @@ async function performSearch(term) {
             ...(catData.meals || []),
             ...(ingData.meals || [])
         ];
+        const uniqueMeals = combined.filter((meal, index, self) =>
+            index === self.findIndex((m) => m.idMeal === meal.idMeal)
+        );
 
         // Remove duplicates (so you don't see the same meal twice)
         allMeals = combined.filter((meal, index, self) =>
             index === self.findIndex((m) => m.idMeal === meal.idMeal)
         );
-
+        
+        allMeals = shuffle(uniqueMeals);
         itemsToShow = 6;
         renderGrid();
 
@@ -235,4 +239,12 @@ async function performSearch(term) {
         console.error("Search error:", err);
         resultsArea.innerHTML = "<p>Oops! Something went wrong.</p>";
     }
+};
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[array[j]]] = [array[array[j]], array[i]];
+    }
+    return array;
 }
