@@ -1,6 +1,7 @@
 const searchBtn = document.getElementById('search-btn');
 const searchInput = document.getElementById('search-input');
 const resultsArea = document.getElementById('meal-results');
+const randomBtn = document.getElementById('random-btn');
 
 searchBtn.addEventListener('click', () => {
     const ingredient = searchInput.value.trim().replace(' ', '_'); // API likes underscores for spaces
@@ -15,6 +16,23 @@ searchBtn.addEventListener('click', () => {
                 }
             });
     }
+});
+
+randomBtn.addEventListener('click', () => {
+    // Clear previous results and input
+    resultsArea.innerHTML = "<p>Picking a delicious surprise...</p>";
+    searchInput.value = "";
+
+    fetch('https://www.themealdb.com/api/json/v1/1/random.php')
+        .then(res => res.json())
+        .then(data => {
+            // The random endpoint returns an array with 1 item
+            displayMeals(data.meals);
+        })
+        .catch(err => {
+            console.error(err);
+            resultsArea.innerHTML = "<p>Oops! The chef is confused. Try again.</p>";
+        });
 });
 
 function displayMeals(meals) {

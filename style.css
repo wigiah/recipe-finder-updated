@@ -11,3 +11,20 @@ button { padding: 10px 20px; background: #ff6b6b; color: white; border: none; cu
 }
 .meal-card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
 .meal-card img { width: 100%; border-radius: 8px; }
+button { 
+    padding: 10px 20px; 
+    color: white; 
+    border: none; 
+    border-radius: 5px;
+    cursor: pointer; 
+    font-weight: bold;
+    margin: 5px; /* Adds space between buttons */
+    transition: transform 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05); /* Makes it pop slightly */
+}
+
+#search-btn { background: #ff6b6b; }
+#random-btn { background: #4ecdc4; }
