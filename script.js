@@ -11,32 +11,64 @@ const recipeCount = document.getElementById('recipe-count');
 let allMeals = []; 
 let itemsToShow = 6; 
 
-// --- 1. SEARCH LOGIC ---
+// --- EVENT LISTENERS ---
+
+// Single search trigger
 searchBtn.addEventListener('click', () => {
     const term = searchInput.value.trim();
-    performSearch(term);
+    if (term) performSearch(term);
 });
 
-// --- 2. RANDOM/SURPRISE LOGIC ---
+// Enter key trigger
+searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        const term = searchInput.value.trim();
+        if (term) performSearch(term);
+    }
+});
+
+// Surprise Me trigger
 randomBtn.addEventListener('click', async () => {
     try {
         const res = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
         const data = await res.json();
-        // Random gives 1 meal, we immediately open its details
-        getMealDetails(data.meals[0].idMeal);
+        if (data.meals) {
+            getMealDetails(data.meals[0].idMeal);
+        }
     } catch (err) {
         console.error("Random Error:", err);
     }
 });
 
-// --- 3. SEARCH ENGINE ---
+// Load More trigger
+loadMoreBtn.onclick = () => {
+    itemsToShow += 6;
+    renderGrid();
+};
+
+// Modal closing logic
+closeBtn.onclick = () => modal.style.display = "none";
+window.onclick = (event) => {
+    if (event.target == modal) modal.style.display = "none";
+};
+
+// Chip/Category trigger
+document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+        const value = chip.innerText;
+        searchInput.value = value;
+        performSearch(value);
+    });
+});
+
+// --- CORE FUNCTIONS ---
+
 async function performSearch(term) {
-    if (!term) return;
-    
     resultsArea.innerHTML = "<p>Cooking up your results...</p>";
     if (recipeCount) recipeCount.innerText = "";
 
     try {
+        // Fetch from 3 endpoints to get the best results
         const [nameRes, catRes, ingRes] = await Promise.all([
             fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`),
             fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${term}`),
@@ -47,25 +79,29 @@ async function performSearch(term) {
         const cData = await catRes.json();
         const iData = await ingRes.json();
 
-        const combined = [...(nData.meals || []), ...(cData.meals || []), ...(iData.meals || [])];
-        
-        // Filter unique meals
-        allMeals = combined.filter((meal, index, self) =>
+        const combined = [
+            ...(nData.meals || []),
+            ...(cData.meals || []),
+            ...(iData.meals || [])
+        ];
+
+        // Remove duplicates
+        const uniqueMeals = combined.filter((meal, index, self) =>
             index === self.findIndex((m) => m.idMeal === meal.idMeal)
         );
 
-        allMeals = shuffle(allMeals);
+        allMeals = shuffle(uniqueMeals);
         itemsToShow = 6;
         renderGrid();
     } catch (err) {
-        resultsArea.innerHTML = "<p>Error finding recipes.</p>";
+        console.error("Search error:", err);
+        resultsArea.innerHTML = "<p>Oops! Something went wrong.</p>";
     }
 }
 
-// --- 4. THE GRID RENDERER ---
 function renderGrid() {
     if (!allMeals || allMeals.length === 0) {
-        resultsArea.innerHTML = "<p>No recipes found.</p>";
+        resultsArea.innerHTML = "<p>No recipes found. Try another ingredient!</p>";
         if (recipeCount) recipeCount.innerText = "";
         loadMoreBtn.style.display = "none";
         return;
@@ -73,69 +109,89 @@ function renderGrid() {
 
     const currentSlice = allMeals.slice(0, itemsToShow);
     
-    // Update Counter
+    // Update counter at the bottom
     if (recipeCount) {
         recipeCount.innerText = `Showing ${currentSlice.length} of ${allMeals.length} recipes`;
     }
 
-    // Draw Cards
+    // Generate Cards
     resultsArea.innerHTML = currentSlice.map(meal => `
         <div class="meal-card">
+            <div class="badge">${meal.strCategory || 'Recipe'}</div>
             <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
             <div class="meal-info">
                 <h3>${meal.strMeal}</h3>
+                <p>${meal.strArea || 'International'}</p>
                 <button class="view-btn" data-id="${meal.idMeal}">View Recipe</button>
             </div>
         </div>
     `).join('');
 
+    // Toggle Load More visibility
     loadMoreBtn.style.display = itemsToShow < allMeals.length ? "inline-block" : "none";
+
     attachButtonListeners();
 }
 
-// --- 5. MODAL LOGIC ---
 async function getMealDetails(id) {
     const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
     const data = await res.json();
     const meal = data.meals[0];
 
-    // Ingredients
-    let ingHTML = "";
+    // Build Ingredients
+    let ingredientsHTML = "";
     for (let i = 1; i <= 20; i++) {
         const ing = meal[`strIngredient${i}`];
         const measure = meal[`strMeasure${i}`];
         if (ing && ing.trim() !== "") {
-            ingHTML += `<div class="ingredient-item"><strong>${measure}</strong> ${ing}</div>`;
+            ingredientsHTML += `
+                <div class="ingredient-item">
+                    <input type="checkbox" id="ing-${i}">
+                    <label for="ing-${i}"><strong>${measure}</strong> ${ing}</label>
+                </div>`;
         }
     }
 
-    // Instructions
-    const steps = meal.strInstructions.split(/\r?\n|\.\s+/)
-        .map(s => s.trim()).filter(s => s.length > 5);
+    // Build Instructions
+    const instructionSteps = meal.strInstructions
+        .split(/\r?\n|\.\s+/)
+        .map(step => step.trim())
+        .filter(step => step.length > 5 && !/^\d+\.?$/.test(step));
 
+    // Combine into Modal (FIXED TITLE ORDER)
     modalBody.innerHTML = `
         <img src="${meal.strMealThumb}" class="modal-header-img">
+        
         <div class="recipe-title-section">
-            <p>${meal.strArea} • ${meal.strCategory}</p>
+            <p class="recipe-category">${meal.strArea} • ${meal.strCategory}</p>
             <h2 class="recipe-title">${meal.strMeal}</h2>
         </div>
+
         <div class="recipe-content">
             <h3>Ingredients</h3>
-            <div class="ing-list-container">${ingHTML}</div>
+            <div class="ing-list-container">${ingredientsHTML}</div>
+
             <h3>Instructions</h3>
             <div class="inst-steps">
-                ${steps.map((s, i) => `<div class="step-row"><span class="step-number">${i+1}</span><p>${s}.</p></div>`).join('')}
+                ${instructionSteps.map((step, index) => `
+                    <div class="step-row">
+                        <span class="step-number">${index + 1}</span> 
+                        <p>${step}${step.endsWith('.') ? '' : '.'}</p>
+                    </div>
+                `).join('')}
             </div>
         </div>
     `;
+    
     modal.style.display = "block";
     modal.scrollTop = 0;
 }
 
 // --- HELPERS ---
+
 function attachButtonListeners() {
-    document.querySelectorAll('.view-btn').forEach(btn => {
-        btn.onclick = () => getMealDetails(btn.getAttribute('data-id'));
+    document.querySelectorAll('.view-btn').forEach(button => {
+        button.onclick = () => getMealDetails(button.getAttribute('data-id'));
     });
 }
 
@@ -146,7 +202,3 @@ function shuffle(array) {
     }
     return array;
 }
-
-loadMoreBtn.onclick = () => { itemsToShow += 6; renderGrid(); };
-closeBtn.onclick = () => modal.style.display = "none";
-window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; };
