@@ -139,31 +139,30 @@ h1 {
 
 /* --- 3. Meal Grid & Cards --- */
 #meal-results {
-    display: block; 
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
+/* This targets the class for the 2-column layout */
 .meals-grid {
     display: grid !important;
-    /* This forces exactly two equal columns */
-    grid-template-columns: repeat(2, 1fr) !important; 
-    gap: 20px !important;
-    width: 100% !important;
-    max-width: 1200px !important;
-    margin: 30px auto !important;
-    padding: 0 !important;
+    grid-template-columns: 1fr 1fr !important; /* 2 Columns */
+    gap: 20px;
+    padding: 20px 0;
 }
 
 .meal-card {
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important; /* Card fills exactly half the screen */
-    min-width: 0 !important; /* Prevents card from pushing the grid apart */
-    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+    width: 100%; 
+    min-width: 0; 
+    margin: 0;
     background: #fff;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     overflow: hidden;
+    height: 100%; /* Makes all cards in a row the same height */
 }
 
 .meal-card:hover {
@@ -422,8 +421,10 @@ meal-info h3 {
 /* --- 8. Responsive Design --- */
 @media (max-width: 600px) {
     .meals-grid {
-        grid-template-columns: 1fr !important;
-    }
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* This creates the 2 columns */
+    gap: 20px;
+}
 
     .meal-card img {
         height: 250px; /* Makes the image taller since it has more room in 1 column */
